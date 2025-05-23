@@ -46,7 +46,7 @@ tasks {
     shadowJar {
         mergeServiceFiles()
         archiveClassifier.set("")
-        destinationDirectory.set(file("/data/data/com.termux/files/home/Eternal-Lobby-main/build/libs"))
+        destinationDirectory.set(file("/data/data/com.termux/files/home/Eternal-Lobby-main/build/libs")) // change to your correct directory!
         archiveFileName.set("server.jar")
     }
 }
