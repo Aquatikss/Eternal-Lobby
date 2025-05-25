@@ -38,7 +38,7 @@ tasks {
     shadowJar {
         mergeServiceFiles()
         archiveClassifier.set("")
-        destinationDirectory.set(file("R:/"))
+        destinationDirectory.set(file("F:/"))
         archiveFileName.set("server.jar")
     }
 }

@@ -7,6 +7,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.inventory.InventoryClickEvent;
+import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemComponent;
@@ -22,84 +23,101 @@ public class ChestGUI {
 
     public static void init() {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
-        globalEventHandler.addListener(InventoryClickEvent.class, event -> {
-            Player player = event.getPlayer();
-            if (event.getInventory() instanceof Inventory) {
-                Inventory inventory = (Inventory) event.getInventory();
-                String title = inventory.getTitle().toString();
-
-                if (title.equals(SERVER_LIST_TITLE)) {
-                    int clickedSlot = event.getSlot();
-                    if (clickedSlot >= 0 && clickedSlot < ServerManager.getServers().size()) {
-                        Server server = ServerManager.getServers().get(clickedSlot);
-                        player.sendMessage("Connecting to " + server.getName() + " (" + server.getIp() + ")...");
-                        player.closeInventory();
-                    }
-                } else if (title.equals(SERVER_CREATION_TITLE)) {
-                    ServerCreationData creationData = ServerCreationData.get(player);
-                    if (creationData == null) return;
-
-                    int slot = event.getSlot();
-                    switch (slot) {
-                        case 0: // Name
-                            ServerCreationData.startCreation(player);
-                            player.closeInventory();
-                            break;
-                        case 1: // IP
-                            creationData = ServerCreationData.get(player);
-                            if (creationData != null) {
-                                player.sendMessage("Enter the server IP (e.g., localhost:25565):");
-                                player.closeInventory();
-                            }
-                            break;
-                        case 2: // Bedrock Support Toggle
-                            creationData.setBedrockSupport(!creationData.isBedrockSupport());
-                            openServerCreation(player);
-                            break;
-                        case 3: // Base Version
-                            creationData = ServerCreationData.get(player);
-                            if (creationData != null) {
-                                player.sendMessage("Enter the server base version (e.g., 1.20):");
-                                player.closeInventory();
-                            }
-                            break;
-                        case 4: // ViaVersion Range
-                            creationData = ServerCreationData.get(player);
-                            if (creationData != null) {
-                                player.sendMessage("Enter the ViaVersion range (e.g., 1.8-1.20):");
-                                player.closeInventory();
-                            }
-                            break;
-                        case 5: // Description
-                            creationData = ServerCreationData.get(player);
-                            if (creationData != null) {
-                                player.sendMessage("Enter the server description:");
-                                player.closeInventory();
-                            }
-                            break;
-                        case 6: // Discord Invite
-                            creationData = ServerCreationData.get(player);
-                            if (creationData != null) {
-                                player.sendMessage("Enter the Discord invite (or type 'skip' to skip):");
-                                player.closeInventory();
-                            }
-                            break;
-                        case 7: // Cracked Toggle
-                            creationData.setCracked(!creationData.isCracked());
-                            openServerCreation(player);
-                            break;
-                        case 8: // Save
-                            if (!creationData.isDone()) {
-                                player.sendMessage("Please complete all fields before saving!");
-                                return;
-                            }
-                            creationData.save();
-                            player.closeInventory();
-                            break;
-                    }
-                }
-            }
+        globalEventHandler.addListener(InventoryPreClickEvent.class, event -> {
+            registerEvent(event);
         });
+    }
+
+    private static void registerEvent(InventoryPreClickEvent event) {
+        Player player = event.getPlayer();
+        if (event.getInventory() instanceof Inventory) {
+            Inventory inventory = (Inventory) event.getInventory();
+            String title = inventory.getTitle().toString();
+
+            if (title.equals(SERVER_LIST_TITLE)) {
+
+                event.setCancelled(true);
+
+                int clickedSlot = event.getSlot();
+                if (clickedSlot >= 0 && clickedSlot < ServerManager.getServers().size()) {
+                    Server server = ServerManager.getServers().get(clickedSlot);
+                    player.sendMessage("Connecting to " + server.getName() + " (" + server.getIp() + ")...");
+                    player.closeInventory();
+                }
+            } else if (title.equals(SERVER_CREATION_TITLE)) {
+
+                event.setCancelled(true);
+
+                ServerCreationData creationData = ServerCreationData.get(player);
+                if (creationData == null) return;
+
+                int slot = event.getSlot();
+                defineSlotInteractions(slot, player, creationData);
+            }
+        }
+    }
+
+    private static void defineSlotInteractions(int slot, Player player, ServerCreationData creationData) {
+        switch (slot) {
+            case 0: // Name
+                ServerCreationData.startCreation(player);
+                player.closeInventory();
+                break;
+            case 1: // IP
+                creationData = ServerCreationData.get(player);
+                if (creationData != null) {
+                    player.sendMessage("Enter the server IP (e.g., localhost:25565):");
+                    player.closeInventory();
+                }
+                break;
+            case 2: // Bedrock Support Toggle
+                creationData.setBedrockSupport(!creationData.isBedrockSupport());
+                openServerCreation(player);
+                break;
+            case 3: // Base Version
+                creationData = ServerCreationData.get(player);
+                if (creationData != null) {
+                    player.sendMessage("Enter the server base version (e.g., 1.20):");
+                    player.closeInventory();
+                }
+                break;
+            case 4: // ViaVersion Range
+                creationData = ServerCreationData.get(player);
+                if (creationData != null) {
+                    player.sendMessage("Enter the ViaVersion range (e.g., 1.8-1.20):");
+                    player.closeInventory();
+                }
+                break;
+            case 5: // Description
+                creationData = ServerCreationData.get(player);
+                if (creationData != null) {
+                    player.sendMessage("Enter the server description:");
+                    player.closeInventory();
+                }
+                break;
+            case 6: // Discord Invite
+                creationData = ServerCreationData.get(player);
+                if (creationData != null) {
+                    player.sendMessage("Enter the Discord invite (or type 'skip' to skip):");
+                    player.closeInventory();
+                }
+                break;
+            case 7: // Cracked Toggle
+                creationData.setCracked(!creationData.isCracked());
+                openServerCreation(player);
+                break;
+            case 8: // Save
+                if (!creationData.isDone()) {
+                    player.sendMessage("Please complete all fields before saving!");
+                    return;
+                }
+                creationData.save();
+                player.closeInventory();
+                break;
+            default:
+                player.sendMessage("Invalid slot clicked: " + slot);
+                break;
+        }
     }
 
     public static void openServerList(Player player) {
