@@ -1,18 +1,8 @@
 package com.aquamobs.data;
 
 public class Server {
-    private String name;
-    private String ip;
-    private boolean bedrockSupport;
-    private String baseVersion;
-    private String viaVersionRange;
-    private String description;
-    private String discordInvite;
-    private boolean cracked;
-    private String creator;
-
-   
-    public Server() {}
+    private final String name, ip, baseVersion, viaVersionRange, description, discordInvite, creator;
+    private final boolean bedrockSupport, cracked;
 
     public Server(String name, String ip, boolean bedrockSupport, String baseVersion, String viaVersionRange,
                   String description, String discordInvite, boolean cracked, String creator) {
