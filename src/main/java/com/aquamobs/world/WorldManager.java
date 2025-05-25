@@ -13,10 +13,8 @@ public class WorldManager {
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         instanceContainer = instanceManager.createInstanceContainer();
 
-        // Enable lighting using LightingChunk
         instanceContainer.setChunkSupplier(LightingChunk::new);
 
-        // Set the custom generator
         instanceContainer.setGenerator(new CustomGenerator());
     }
 

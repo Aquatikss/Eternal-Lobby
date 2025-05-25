@@ -1,8 +1,11 @@
 package com.aquamobs;
 
 import com.aquamobs.commands.GameModeCommand;
+import com.aquamobs.commands.ServerCommand;
 import com.aquamobs.config.ServerConfig;
+import com.aquamobs.data.ServerManager;
 import com.aquamobs.events.PlayerJoinHandler;
+import com.aquamobs.gui.ChestGUI;
 import com.aquamobs.world.WorldManager;
 import net.minestom.server.MinecraftServer;
 
@@ -14,11 +17,18 @@ public class Main {
         // Set up world and lighting
         WorldManager.setupWorld(server);
 
+        // Initialize server manager
+        ServerManager.init();
+
         // Register event handlers
         PlayerJoinHandler.registerEvents(server);
 
         // Register commands
         GameModeCommand.registerCommands(server);
+        ServerCommand.registerCommands(server);
+
+        // Initialize GUI event listeners
+        ChestGUI.init();
 
         // Start the server with configuration
         ServerConfig config = new ServerConfig();
