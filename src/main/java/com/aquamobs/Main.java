@@ -1,35 +1,37 @@
 package com.aquamobs;
 
+import com.aquamobs.commands.GameModeCommand;
+import com.aquamobs.commands.ServerCommand;
+import com.aquamobs.config.ServerConfig;
+import com.aquamobs.data.ServerManager;
+import com.aquamobs.events.PlayerJoinHandler;
+import com.aquamobs.gui.ChestGUI;
+import com.aquamobs.world.WorldManager;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Player;
-import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
-import net.minestom.server.instance.InstanceContainer;
-import net.minestom.server.instance.InstanceManager;
-import net.minestom.server.instance.block.Block;
 
 public class Main {
     public static void main(String[] args) {
-        // Initialization
+        // Initialize the server
         MinecraftServer server = MinecraftServer.init();
 
-        // Create the instance
-        InstanceManager instanceManager = MinecraftServer.getInstanceManager();
-        InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
+        // Set up world and lighting
+        WorldManager.setupWorld(server);
 
-        // Set the ChunkGenerator
-        instanceContainer.setGenerator(unit -> unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK));
+        // Initialize server manager
+        ServerManager.init();
 
-        // Add an event callback to specify the spawning instance (and the spawn position)
-        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
-        globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
-            final Player player = event.getPlayer();
-            event.setSpawningInstance(instanceContainer);
-            player.setRespawnPoint(new Pos(0, 42, 0));
-        });
+        // Register event handlers
+        PlayerJoinHandler.registerEvents(server);
 
-        // Start the server on port 25565
-        server.start("0.0.0.0", 25796);
+        // Register commands
+        GameModeCommand.registerCommands(server);
+        ServerCommand.registerCommands(server);
+
+        // Initialize GUI event listeners
+        ChestGUI.init();
+
+        // Start the server with configuration
+        ServerConfig config = new ServerConfig();
+        server.start(config.getHost(), config.getPort());
     }
 }
