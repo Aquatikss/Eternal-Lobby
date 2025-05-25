@@ -9,7 +9,7 @@ import net.minestom.server.entity.Player;
 
 public class ServerCommand {
     public static void registerCommands(MinecraftServer server) {
-        Command serverCommand = new Command("server");
+        Command serverCommand = new Command("server", "srv");
 
         // /server list
         serverCommand.addSyntax((sender, context) -> {

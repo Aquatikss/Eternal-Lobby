@@ -1,5 +1,7 @@
 package com.aquamobs.events;
 
+import com.aquamobs.util.logger.LogType;
+import com.aquamobs.util.logger.Logger;
 import com.aquamobs.world.WorldManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.GameMode;
@@ -15,6 +17,8 @@ public class PlayerJoinHandler {
             event.setSpawningInstance(WorldManager.getInstanceContainer());
             player.setRespawnPoint(WorldManager.getSpawnPosition());
             player.setGameMode(GameMode.CREATIVE); // for testing reasons
+
+            Logger.log("Player joined: " + player.getUuid(), LogType.INFO);
         });
     }
 }
