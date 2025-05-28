@@ -2,8 +2,7 @@ package com.aquamobs.config;
 
 public class ServerConfig {
     private static final String HOST = "0.0.0.0";
-    private static final int PORT = 25796;
-    private static final String VELOCITY_SECRET = "SGrcXe0jvGOq";
+    private static final int PORT = 25609;
 
     public String getHost() {
         return HOST;
@@ -11,9 +10,5 @@ public class ServerConfig {
 
     public int getPort() {
         return PORT;
-    }
-
-    public String getVelocitySecret() {
-        return VELOCITY_SECRET;
     }
 }

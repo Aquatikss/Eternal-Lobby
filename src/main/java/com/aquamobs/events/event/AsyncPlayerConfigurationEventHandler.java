@@ -11,6 +11,7 @@ import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.minestom.server.tag.Tag;
 
 public class AsyncPlayerConfigurationEventHandler {
     public static void registerEvents(GlobalEventHandler globalEventHandler) {
@@ -27,7 +28,8 @@ public class AsyncPlayerConfigurationEventHandler {
             ItemStack serverCompass = ItemStack.builder(Material.COMPASS)
                     .customName(miniMessage.deserialize("<!italic><gold>Server Selector"))
                     .lore(miniMessage.deserialize("<!italic><gray>Click to open the server selector"))
-                    .build();
+                    .build()
+                    .withTag(Tag.String("server_selector"), "true"); // Add custom tag to identify the compass
 
             player.getInventory().setItemStack(4, serverCompass);
             RegisterEvents.registerEvents(globalEventHandler);

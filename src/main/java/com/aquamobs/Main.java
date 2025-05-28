@@ -9,7 +9,6 @@ import com.aquamobs.gui.ChestGUI;
 import com.aquamobs.world.WorldManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.extras.velocity.VelocityProxy;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,7 +36,6 @@ public class Main {
 
         // Start the server with configuration
         ServerConfig config = new ServerConfig();
-        VelocityProxy.enable(config.getVelocitySecret());
         server.start(config.getHost(), config.getPort());
     }
 }
