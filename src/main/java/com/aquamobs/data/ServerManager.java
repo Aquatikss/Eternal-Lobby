@@ -50,4 +50,9 @@ public class ServerManager {
     public static List<Server> getServers() {
         return servers;
     }
+
+    public static void clearServers() {
+        saveServers();
+        servers.clear();
+    }
 }

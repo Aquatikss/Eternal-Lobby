@@ -8,10 +8,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
-    implementation("net.minestom:minestom-snapshots:ebaa2bbf64")
+    implementation("net.minestom:minestom-snapshots:1_21_5-aa17002536")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("dev.hollowcube:schem:1.3.1")
     implementation("org.slf4j:slf4j-nop:2.0.17")

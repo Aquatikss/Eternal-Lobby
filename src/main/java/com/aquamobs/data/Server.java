@@ -27,4 +27,24 @@ public class Server {
     public String getDiscordInvite() { return discordInvite; }
     public boolean isCracked() { return cracked; }
     public String getCreator() { return creator; }
+
+    @Override
+    public String toString() {
+        return "Server{" +
+                "name='" + name + '\'' +
+                ", ip='" + ip + '\'' +
+                ", bedrockSupport=" + bedrockSupport +
+                ", baseVersion='" + baseVersion + '\'' +
+                ", viaVersionRange='" + viaVersionRange + '\'' +
+                ", description='" + description + '\'' +
+                ", discordInvite='" + discordInvite + '\'' +
+                ", cracked=" + cracked +
+                ", creator='" + creator + '\'' +
+                '}';
+    }
+
+    public static Server[] getAllServers() {
+
+        return new Server[0];
+    }
 }

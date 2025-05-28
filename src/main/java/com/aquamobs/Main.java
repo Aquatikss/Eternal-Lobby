@@ -4,10 +4,11 @@ import com.aquamobs.commands.GameModeCommand;
 import com.aquamobs.commands.ServerCommand;
 import com.aquamobs.config.ServerConfig;
 import com.aquamobs.data.ServerManager;
-import com.aquamobs.events.PlayerJoinHandler;
+import com.aquamobs.events.event.AsyncPlayerConfigurationEventHandler;
 import com.aquamobs.gui.ChestGUI;
 import com.aquamobs.world.WorldManager;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.extras.velocity.VelocityProxy;
 
 public class Main {
@@ -21,8 +22,11 @@ public class Main {
         // Initialize server manager
         ServerManager.init();
 
+        // Set up the global event handler
+        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
+
         // Register event handlers
-        PlayerJoinHandler.registerEvents(server);
+        AsyncPlayerConfigurationEventHandler.registerEvents(globalEventHandler);
 
         // Register commands
         GameModeCommand.registerCommands(server);

@@ -1,6 +1,10 @@
 package com.aquamobs.util.logger;
 
 import org.fusesource.jansi.Ansi;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.fusesource.jansi.Ansi.Color.*;
 
 public class Logger {
@@ -23,6 +27,12 @@ public class Logger {
     }
 
     private static String formatMessage(String message, LogType logType) {
-        return String.format("%s %s", colorizePrefix(logType), message);
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String dateString = now.format(formatter);
+
+        message = String.format("[%s] %s", dateString, message);
+        return colorizePrefix(logType) + " " + message;
     }
 }

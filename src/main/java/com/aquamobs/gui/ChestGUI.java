@@ -6,11 +6,9 @@ import com.aquamobs.data.ServerManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.event.inventory.InventoryClickEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
-import net.minestom.server.item.ItemComponent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.kyori.adventure.text.Component;
@@ -126,8 +124,8 @@ public class ChestGUI {
         for (Server server : ServerManager.getServers()) {
             if (slot >= 54) break;
             ItemStack glassPane = ItemStack.of(Material.BLACK_STAINED_GLASS_PANE)
-                    .with(ItemComponent.CUSTOM_NAME, Component.text(server.getName()))
-                    .with(ItemComponent.LORE, Arrays.asList(
+                    .withCustomName(Component.text(server.getName()))
+                    .withLore(Arrays.asList(
                             Component.text("IP: " + server.getIp()),
                             Component.text("Bedrock Support: " + (server.isBedrockSupport() ? "Yes" : "No")),
                             Component.text("Base Version: " + server.getBaseVersion()),
@@ -153,40 +151,40 @@ public class ChestGUI {
         Inventory inventory = new Inventory(InventoryType.CHEST_1_ROW, Component.text(SERVER_CREATION_TITLE));
 
         inventory.setItemStack(0, ItemStack.of(Material.PAPER)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set Name"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the server name via chat"))));
+                .withCustomName(Component.text("Set Name"))
+                .withLore(List.of(Component.text("Click to set the server name via chat"))));
 
         inventory.setItemStack(1, ItemStack.of(Material.OAK_SIGN)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set IP"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the server IP via chat"))));
+                .withCustomName(Component.text("Set IP"))
+                .withLore(List.of(Component.text("Click to set the server IP via chat"))));
 
         inventory.setItemStack(2, ItemStack.of(data.isBedrockSupport() ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Bedrock Support: " + (data.isBedrockSupport() ? "Yes" : "No")))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to toggle"))));
+                .withCustomName(Component.text("Bedrock Support: " + (data.isBedrockSupport() ? "Yes" : "No")))
+                .withLore(List.of(Component.text("Click to toggle"))));
 
         inventory.setItemStack(3, ItemStack.of(Material.BOOK)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set Base Version"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the base version via chat"))));
+                .withCustomName(Component.text("Set Base Version"))
+                .withLore(List.of(Component.text("Click to set the base version via chat"))));
 
         inventory.setItemStack(4, ItemStack.of(Material.COMPASS)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set ViaVersion Range"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the version range via chat"))));
+                .withCustomName(Component.text("Set ViaVersion Range"))
+                .withLore(List.of(Component.text("Click to set the version range via chat"))));
 
         inventory.setItemStack(5, ItemStack.of(Material.WRITTEN_BOOK)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set Description"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the description via chat"))));
+                .withCustomName(Component.text("Set Description"))
+                .withLore(List.of(Component.text("Click to set the description via chat"))));
 
         inventory.setItemStack(6, ItemStack.of(Material.WHITE_BANNER)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Set Discord Invite"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to set the Discord invite via chat (optional)"))));
+                .withCustomName(Component.text("Set Discord Invite"))
+                .withLore(List.of(Component.text("Click to set the Discord invite via chat (optional)"))));
 
         inventory.setItemStack(7, ItemStack.of(data.isCracked() ? Material.IRON_INGOT : Material.COAL)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Cracked: " + (data.isCracked() ? "Yes" : "No")))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to toggle"))));
+                .withCustomName(Component.text("Cracked: " + (data.isCracked() ? "Yes" : "No")))
+                .withLore(List.of(Component.text("Click to toggle"))));
 
         inventory.setItemStack(8, ItemStack.of(Material.EMERALD)
-                .with(ItemComponent.CUSTOM_NAME, Component.text("Save Server"))
-                .with(ItemComponent.LORE, List.of(Component.text("Click to save the server"))));
+                .withCustomName(Component.text("Save Server"))
+                .withLore(List.of(Component.text("Click to save the server"))));
 
         player.openInventory(inventory);
     }
